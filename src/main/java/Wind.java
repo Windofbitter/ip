@@ -15,11 +15,15 @@ public class Wind {
         Scanner scanner = new Scanner(System.in);
         List<Task> todos = new LinkedList<>();
         while (true) {
-            String line = scanner.nextLine();
-            Command c = Parser.parse(line);
-            c.execute(todos);
-            if (c.isExit()) {
-                break;
+            try {
+                String line = scanner.nextLine();
+                Command c = Parser.parse(line, todos);
+                c.execute(todos);
+                if (c.isExit()) {
+                    break;
+                }
+            } catch (WindException e) {
+                System.out.println(e.getMessage());
             }
         }
     }
