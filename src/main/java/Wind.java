@@ -13,7 +13,7 @@ public class Wind {
 //                + "|____/ \\__,_|_|\\_\\___|\n";
         System.out.println("Hello! I'm Wind\nWhat can I do for you?");
         Scanner scanner = new Scanner(System.in);
-        List<String> todos = new LinkedList<>();
+        List<Task> todos = new LinkedList<>();
         while (true) {
             String input = scanner.nextLine();
             if (input.equals("bye")) {
@@ -21,11 +21,27 @@ public class Wind {
                 break;
             } else if (input.equals("list")) {
                 for (int i = 0; i < todos.size(); i++) {
-                    System.out.println(i + 1 + ". " + todos.get(i));
+                    if (todos.get(i).getIsDone()) {
+                        System.out.println(i + 1 + ".[X] " + todos.get(i).getDescription());
+                    } else {
+                        System.out.println(i + 1 + ".[ ] " + todos.get(i).getDescription());
+                    }
                 }
+            } else if (input.startsWith("mark")) {
+                String[] words = input.split(" ");
+                int index = Integer.parseInt(words[1]) - 1;
+                todos.get(index).setIsDone(true);
+                System.out.println("Nice! I've marked this task as done:");
+                System.out.println("[X] " + todos.get(index).getDescription());
+            } else if (input.startsWith("unmark")) {
+                String[] words = input.split(" ");
+                int index = Integer.parseInt(words[1]) - 1;
+                todos.get(index).setIsDone(false);
+                System.out.println("Nice! I've unmarked this task as done:");
+                System.out.println("[ ] " + todos.get(index).getDescription());
             } else {
                 System.out.println("added: " + input);
-                todos.add(input);
+                todos.add(new Task(input));
             }
         }
     }
