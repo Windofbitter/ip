@@ -16,7 +16,7 @@ public class DeadlineCommand implements Command {
         Deadline deadline = new Deadline(this.description, this.by);
         tasks.add(deadline);
         System.out.println("Got it. I've added this task:");
-        System.out.println(deadline);
+        System.out.println("  " + deadline);
         System.out.println("Now you have " + tasks.size() + " tasks in the list.");
     }
 
