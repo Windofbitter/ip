@@ -8,6 +8,23 @@ public class Parser {
         return switch (words[0]) {
             case "bye" -> new ByeCommand();
             case "list" -> new ListCommand();
+            case "delete" -> {
+                // try and parse the integer and see if it is valid
+                if (words.length < 2) {
+                    String errorMessage = "Please provide a task number for the delete command.";
+                    // give the correct format
+                    errorMessage += "\nCorrect format: delete <task number>";
+                    throw new IllegalArgumentException(errorMessage);
+                }
+                // check whether the task number is valid
+                if (Integer.parseInt(words[1]) < 1 || Integer.parseInt(words[1]) > tasks.size()) {
+                    String errorMessage = "Please provide a valid task number for the delete command.";
+                    // give the correct format
+                    errorMessage += "\nCorrect format: delete <task number>";
+                    throw new IllegalArgumentException(errorMessage);
+                }
+                yield new DeleteCommand(Integer.parseInt(words[1]));
+            }
             case "mark" -> {
                 // try and parse the integer and see if it is valid
                 if (words.length < 2) {
