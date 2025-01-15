@@ -5,10 +5,11 @@ import java.util.List;
 public class Parser {
     public static Command parse(String input, List<Task> tasks) throws IllegalArgumentException, InvalidCommandException {
         String[] words = input.split(" ");
-        return switch (words[0]) {
-            case "bye" -> new ByeCommand();
-            case "list" -> new ListCommand();
-            case "delete" -> {
+        CommandEnum commandEnum = getCommandEnum(words[0]);
+        return switch (commandEnum) {
+            case CommandEnum.BYE -> new ByeCommand();
+            case CommandEnum.LIST -> new ListCommand();
+            case CommandEnum.DELETE -> {
                 // try and parse the integer and see if it is valid
                 if (words.length < 2) {
                     String errorMessage = "Please provide a task number for the delete command.";
@@ -17,7 +18,7 @@ public class Parser {
                     throw new IllegalArgumentException(errorMessage);
                 }
                 // check whether the task number is valid
-                if (Integer.parseInt(words[1]) < 1 || Integer.parseInt(words[1]) > tasks.size()) {
+                if (!words[1].matches("\\d+") || Integer.parseInt(words[1]) < 1 || Integer.parseInt(words[1]) > tasks.size()) {
                     String errorMessage = "Please provide a valid task number for the delete command.";
                     // give the correct format
                     errorMessage += "\nCorrect format: delete <task number>";
@@ -25,7 +26,7 @@ public class Parser {
                 }
                 yield new DeleteCommand(Integer.parseInt(words[1]));
             }
-            case "mark" -> {
+            case CommandEnum.MARK -> {
                 // try and parse the integer and see if it is valid
                 if (words.length < 2) {
                     String errorMessage = "Please provide a task number for the mark command.";
@@ -34,7 +35,7 @@ public class Parser {
                     throw new IllegalArgumentException(errorMessage);
                 }
                 // check whether the task number is valid
-                if (Integer.parseInt(words[1]) < 1 || Integer.parseInt(words[1]) > tasks.size()) {
+                if (!words[1].matches("\\d+") || Integer.parseInt(words[1]) < 1 || Integer.parseInt(words[1]) > tasks.size()) {
                     String errorMessage = "Please provide a valid task number for the mark command.";
                     // give the correct format
                     errorMessage += "\nCorrect format: mark <task number>";
@@ -42,14 +43,14 @@ public class Parser {
                 }
                 yield new MarkCommand(Integer.parseInt(words[1]));
             }
-            case "unmark" -> {
+            case CommandEnum.UNMARK -> {
                 if (words.length < 2) {
                     String errorMessage = "Please provide a task number for the unmark command.";
                     // give the correct format
                     errorMessage += "\nCorrect format: unmark <task number>";
                     throw new IllegalArgumentException(errorMessage);
                 }
-                if (Integer.parseInt(words[1]) < 1 || Integer.parseInt(words[1]) > tasks.size()) {
+                if (!words[1].matches("\\d+") || Integer.parseInt(words[1]) < 1 || Integer.parseInt(words[1]) > tasks.size()) {
                     String errorMessage = "Please provide a valid task number for the unmark command.";
                     // give the correct format
                     errorMessage += "\nCorrect format: unmark <task number>";
@@ -57,7 +58,7 @@ public class Parser {
                 }
                 yield new UnmarkCommand(Integer.parseInt(words[1]));
             }
-            case "todo" -> {
+            case CommandEnum.TODO -> {
                 if (input.length() < 6) {
                     String errorMessage = "Please provide a description for the todo command.";
                     // give the correct format
@@ -66,7 +67,7 @@ public class Parser {
                 }
                 yield new TodoCommand(input.substring(5));
             }
-            case "deadline" -> {
+            case CommandEnum.DEADLINE -> {
                 if (!input.contains(" /by ")) {
                     String errorMessage = "Please provide a valid deadline command.";
                     errorMessage += "\nCorrect format: deadline <description> /by <deadline>";
@@ -80,7 +81,7 @@ public class Parser {
                 String[] deadlineWords = input.substring(9).split(" /by ");
                 yield new DeadlineCommand(deadlineWords[0], deadlineWords[1]);
             }
-            case "event" -> {
+            case CommandEnum.EVENT -> {
                 // check the format
                 if (!input.contains(" /from ") || !input.contains(" /to ") || input.indexOf(" /from ") > input.indexOf(" /to ")) {
                     String errorMessage = "Please provide a valid event command.";
@@ -114,5 +115,19 @@ public class Parser {
         errorMessage += "\n6. deadline <description> /by <deadline>";
         errorMessage += "\n7. event <description> /from <start time> /to <end time>";
         return errorMessage;
+    }
+
+    private static CommandEnum getCommandEnum(String command) {
+        return switch (command) {
+            case "bye" -> CommandEnum.BYE;
+            case "list" -> CommandEnum.LIST;
+            case "delete" -> CommandEnum.DELETE;
+            case "mark" -> CommandEnum.MARK;
+            case "unmark" -> CommandEnum.UNMARK;
+            case "todo" -> CommandEnum.TODO;
+            case "deadline" -> CommandEnum.DEADLINE;
+            case "event" -> CommandEnum.EVENT;
+            default -> CommandEnum.INVALID;
+        };
     }
 }
