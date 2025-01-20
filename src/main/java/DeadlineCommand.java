@@ -12,12 +12,13 @@ public class DeadlineCommand implements Command {
     }
 
     @Override
-    public void execute(List<Task> tasks) {
+    public void execute(List<Task> tasks, Storage storage) {
         Deadline deadline = new Deadline(this.description, this.by);
         tasks.add(deadline);
         System.out.println("Got it. I've added this task:");
         System.out.println("  " + deadline);
         System.out.println("Now you have " + tasks.size() + " tasks in the list.");
+        storage.save(tasks);
     }
 
     @Override

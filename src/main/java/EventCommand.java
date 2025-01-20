@@ -14,12 +14,13 @@ public class EventCommand implements Command{
     }
 
     @Override
-    public void execute(List<Task> tasks) {
+    public void execute(List<Task> tasks, Storage storage) {
         Event event = new Event(description, from, to);
         tasks.add(event);
         System.out.println("Got it. I've added this task:");
         System.out.println("  " + event);
         System.out.println("Now you have " + tasks.size() + " tasks in the list.");
+        storage.save(tasks);
     }
 
     @Override

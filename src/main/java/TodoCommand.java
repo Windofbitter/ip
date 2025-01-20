@@ -13,12 +13,13 @@ public class TodoCommand implements Command {
         return this.description;
     }
 
-    public void execute(List<Task> tasks) {
+    public void execute(List<Task> tasks, Storage storage) {
         Task newTask = new Todo(this.description);
         tasks.add(newTask);
         System.out.println("Got it. I've added this task:");
         System.out.println("  " + newTask);
         System.out.println("Now you have " + tasks.size() + " tasks in the list.");
+        storage.save(tasks);
     }
 
     @Override
