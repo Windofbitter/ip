@@ -166,6 +166,7 @@ public class Parser {
             case "todo" -> CommandEnum.TODO;
             case "deadline" -> CommandEnum.DEADLINE;
             case "event" -> CommandEnum.EVENT;
+            case "find" -> CommandEnum.FIND;
             default -> CommandEnum.INVALID;
         };
     }

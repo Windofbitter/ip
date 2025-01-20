@@ -12,5 +12,6 @@ public enum CommandEnum {
     TODO,
     DEADLINE,
     EVENT,
+    FIND,
     INVALID
 }
