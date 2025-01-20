@@ -1,10 +1,9 @@
 package wind.storage;
 
-
+import java.util.LinkedList;
 
 import wind.task.Task;
 
-import java.util.LinkedList;
 
 public class TaskList {
     private final LinkedList<Task> tasks = new LinkedList<>();

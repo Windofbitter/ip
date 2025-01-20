@@ -1,5 +1,10 @@
 package wind.storage;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 
 import wind.task.Deadline;
@@ -7,11 +12,6 @@ import wind.task.Event;
 import wind.task.Task;
 import wind.task.Todo;
 
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 
 public class Storage {
     private final String filePath = "./data/tasks.txt";
