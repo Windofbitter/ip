@@ -1,6 +1,8 @@
 package wind.ui;
 
 
+import java.util.List;
+
 import wind.storage.TaskList;
 import wind.task.Task;
 
@@ -38,6 +40,14 @@ public class Ui {
     public void printWelcome() {
         System.out.println("Hello! I'm Wind");
         System.out.println("What can I do for you?");
+    }
+
+    public void printMatchingTasks(List<Task> matchingTasks) {
+        System.out.println("Here are the matching tasks in your list:");
+        for (int i = 0; i < matchingTasks.size(); i++) {
+            System.out.println((i + 1) + ". " + matchingTasks.get(i));
+        }
+
     }
 
     public void printGoodbye() {

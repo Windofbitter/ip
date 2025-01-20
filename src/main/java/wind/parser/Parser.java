@@ -1,7 +1,6 @@
 package wind.parser;
 
 
-
 import wind.command.*;
 import wind.exception.InvalidCommandException;
 import wind.storage.TaskList;
@@ -112,6 +111,15 @@ public class Parser {
                 String[] eventParts = input.substring(6).split(" /from | /to ");
                 yield new EventCommand(eventParts[0], eventParts[1], eventParts[2]);
             }
+            case FIND ->  {
+                if (words.length < 2) {
+                    String errorMessage = "Please provide a keyword for the find wind.command.";
+                    // give the correct format
+                    errorMessage += "\nCorrect format: find <keyword>";
+                    throw new IllegalArgumentException(errorMessage);
+                }
+                yield new FindCommand(input.substring(5));
+            }
             default -> {
                 String errorMessage = getInvalidCommandMessage();
                 throw new InvalidCommandException(errorMessage);
@@ -142,6 +150,7 @@ public class Parser {
             case "todo" -> CommandEnum.TODO;
             case "deadline" -> CommandEnum.DEADLINE;
             case "event" -> CommandEnum.EVENT;
+            case "find" -> CommandEnum.FIND;
             default -> CommandEnum.INVALID;
         };
     }
