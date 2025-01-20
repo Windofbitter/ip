@@ -1,7 +1,5 @@
 package wind.storage;
 
-
-
 import wind.task.Deadline;
 import wind.task.Event;
 import wind.task.Task;
@@ -13,9 +11,17 @@ import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * Handles the storage of tasks to and from a file.
+ */
 public class Storage {
     private final String filePath = "./data/tasks.txt";
 
+    /**
+     * Saves the tasks to the file.
+     *
+     * @param tasks The list of tasks to be saved.
+     */
     public void save(TaskList tasks) {
         StringBuilder sb = new StringBuilder();
         for (Task task : tasks.getTasks()) {
@@ -33,6 +39,11 @@ public class Storage {
         }
     }
 
+    /**
+     * Loads the tasks from the file.
+     *
+     * @param tasks The list of tasks to be loaded.
+     */
     public void loadTask(TaskList tasks) {
         try {
             java.io.File f = new java.io.File(filePath);
@@ -48,9 +59,14 @@ public class Storage {
         } catch (java.io.FileNotFoundException e) {
             System.out.println("File not found: " + e.getMessage());
         }
-
     }
 
+    /**
+     * Converts a task to its string representation.
+     *
+     * @param task The task to be converted.
+     * @return The string representation of the task.
+     */
     private String getTaskString(Task task) {
         if (task.getClass().equals(Todo.class)) {
             return "T | " + (task.getIsDone() ? "1" : "0") + " | " + task.getDescription();
@@ -63,6 +79,12 @@ public class Storage {
         }
     }
 
+    /**
+     * Converts a string representation of a task to a Task object.
+     *
+     * @param string The string representation of the task.
+     * @return The Task object.
+     */
     private Task getTask(String string) {
         String[] arr = string.split(" \\| ");
         if (arr[0].equals("T")) {
@@ -87,5 +109,4 @@ public class Storage {
             return deadline;
         }
     }
-
 }

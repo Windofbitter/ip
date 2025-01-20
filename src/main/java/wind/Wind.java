@@ -1,6 +1,5 @@
 package wind;
 
-
 import wind.command.Command;
 import wind.exception.WindException;
 import wind.parser.Parser;
@@ -10,13 +9,11 @@ import wind.ui.Ui;
 
 import java.util.Scanner;
 
+/**
+ * The main class for the Wind application.
+ */
 public class Wind {
     public static void main(String[] args) {
-//        String logo = " ____        _        \n"
-//                + "|  _ \\ _   _| | _____ \n"
-//                + "| | | | | | | |/ / _ \\\n"
-//                + "| |_| | |_| |   <  __/\n"
-//                + "|____/ \\__,_|_|\\_\\___|\n";
         Ui ui = new Ui();
         ui.printWelcome();
         Scanner scanner = new Scanner(System.in);
