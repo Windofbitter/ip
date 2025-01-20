@@ -1,7 +1,5 @@
 package main.java;
 
-import java.util.List;
-
 public class UnmarkCommand implements Command {
     private final int taskNumber;
 
@@ -10,12 +8,11 @@ public class UnmarkCommand implements Command {
     }
 
     @Override
-    public void execute(List<Task> tasks, Storage storage) {
-        Task task = tasks.get(taskNumber - 1);
+    public void execute(TaskList taskList, Storage storage, Ui ui) {
+        Task task = taskList.getTask(taskNumber - 1);
         task.setIsDone(false);
-        System.out.println("OK, I've marked this task as not done yet:");
-        System.out.println("  " + task);
-        storage.save(tasks);
+        ui.printUnmarkTaskSuccess(task);
+        storage.save(taskList);
     }
 
     @Override

@@ -10,11 +10,12 @@ import java.util.List;
 public class Storage {
     private final String filePath = "./data/tasks.txt";
 
-    public void save(List<Task> tasks) {
+    public void save(TaskList tasks) {
         StringBuilder sb = new StringBuilder();
-        for (Task task : tasks) {
+        for (Task task : tasks.getTasks()) {
             sb.append(getTaskString(task)).append("\n");
         }
+
         try {
             Path path = Paths.get(filePath);
             if (Files.notExists(path.getParent())) {
@@ -26,7 +27,7 @@ public class Storage {
         }
     }
 
-    public void loadTask(List<Task> tasks) {
+    public void loadTask(TaskList tasks) {
         try {
             java.io.File f = new java.io.File(filePath);
             if (!f.exists()) {
@@ -34,7 +35,9 @@ public class Storage {
             }
             java.util.Scanner sc = new java.util.Scanner(f);
             while (sc.hasNext()) {
-                tasks.add(getTask(sc.nextLine()));
+                String line = sc.nextLine();
+                Task task = getTask(line);
+                tasks.addTask(task);
             }
         } catch (java.io.FileNotFoundException e) {
             System.out.println("File not found: " + e.getMessage());

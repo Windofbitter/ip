@@ -1,7 +1,5 @@
 package main.java;
 
-import java.util.List;
-
 public class MarkCommand implements Command {
     private final int index;
 
@@ -10,11 +8,11 @@ public class MarkCommand implements Command {
     }
 
     @Override
-    public void execute(List<Task> tasks, Storage storage) {
-        Task task = tasks.get(index - 1);
+    public void execute(TaskList taskList, Storage storage, Ui ui) {
+        Task task = taskList.getTask(index - 1);
         task.setIsDone(true);
-        System.out.println("Nice! I've marked this task as done:");
-        storage.save(tasks);
+        ui.printMarkTaskSuccess(task);
+        storage.save(taskList);
 
     }
 

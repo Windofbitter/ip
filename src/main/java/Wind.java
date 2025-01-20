@@ -1,7 +1,5 @@
 package main.java;
 
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Scanner;
 
 public class Wind {
@@ -11,16 +9,18 @@ public class Wind {
 //                + "| | | | | | | |/ / _ \\\n"
 //                + "| |_| | |_| |   <  __/\n"
 //                + "|____/ \\__,_|_|\\_\\___|\n";
-        System.out.println("Hello! I'm Wind\nWhat can I do for you?");
+        Ui ui = new Ui();
+        ui.printWelcome();
         Scanner scanner = new Scanner(System.in);
-        List<Task> todos = new LinkedList<>();
+        TaskList todos = new TaskList();
         Storage storage = new Storage();
+
         storage.loadTask(todos);
         while (true) {
             try {
                 String line = scanner.nextLine();
                 Command c = Parser.parse(line, todos);
-                c.execute(todos, storage);
+                c.execute(todos, storage, ui);
                 if (c.isExit()) {
                     break;
                 }

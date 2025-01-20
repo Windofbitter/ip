@@ -5,7 +5,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class Parser {
-    public static Command parse(String input, List<Task> tasks) throws IllegalArgumentException, InvalidCommandException {
+    public static Command parse(String input, TaskList taskList) throws IllegalArgumentException, InvalidCommandException {
         String[] words = input.split(" ");
         CommandEnum commandEnum = getCommandEnum(words[0]);
         return switch (commandEnum) {
@@ -20,7 +20,7 @@ public class Parser {
                     throw new IllegalArgumentException(errorMessage);
                 }
                 // check whether the task number is valid
-                if (!words[1].matches("\\d+") || Integer.parseInt(words[1]) < 1 || Integer.parseInt(words[1]) > tasks.size()) {
+                if (!words[1].matches("\\d+") || Integer.parseInt(words[1]) < 1 || Integer.parseInt(words[1]) > taskList.getSize()) {
                     String errorMessage = "Please provide a valid task number for the delete command.";
                     // give the correct format
                     errorMessage += "\nCorrect format: delete <task number>";
@@ -37,7 +37,7 @@ public class Parser {
                     throw new IllegalArgumentException(errorMessage);
                 }
                 // check whether the task number is valid
-                if (!words[1].matches("\\d+") || Integer.parseInt(words[1]) < 1 || Integer.parseInt(words[1]) > tasks.size()) {
+                if (!words[1].matches("\\d+") || Integer.parseInt(words[1]) < 1 || Integer.parseInt(words[1]) > taskList.getSize()) {
                     String errorMessage = "Please provide a valid task number for the mark command.";
                     // give the correct format
                     errorMessage += "\nCorrect format: mark <task number>";
@@ -52,7 +52,7 @@ public class Parser {
                     errorMessage += "\nCorrect format: unmark <task number>";
                     throw new IllegalArgumentException(errorMessage);
                 }
-                if (!words[1].matches("\\d+") || Integer.parseInt(words[1]) < 1 || Integer.parseInt(words[1]) > tasks.size()) {
+                if (!words[1].matches("\\d+") || Integer.parseInt(words[1]) < 1 || Integer.parseInt(words[1]) > taskList.getSize()) {
                     String errorMessage = "Please provide a valid task number for the unmark command.";
                     // give the correct format
                     errorMessage += "\nCorrect format: unmark <task number>";

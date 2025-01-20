@@ -1,7 +1,6 @@
 package main.java;
 
 import java.time.LocalDate;
-import java.util.List;
 
 public class DeadlineCommand implements Command {
     private final String description;
@@ -13,13 +12,11 @@ public class DeadlineCommand implements Command {
     }
 
     @Override
-    public void execute(List<Task> tasks, Storage storage) {
+    public void execute(TaskList taskList, Storage storage, Ui ui) {
         Deadline deadline = new Deadline(this.description, this.by);
-        tasks.add(deadline);
-        System.out.println("Got it. I've added this task:");
-        System.out.println("  " + deadline);
-        System.out.println("Now you have " + tasks.size() + " tasks in the list.");
-        storage.save(tasks);
+        taskList.addTask(deadline);
+        ui.printAddTaskSuccess(deadline, taskList.getSize());
+        storage.save(taskList);
     }
 
     @Override

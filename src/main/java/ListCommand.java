@@ -1,14 +1,9 @@
 package main.java;
 
-import java.util.List;
-
 public class ListCommand implements Command {
     @Override
-    public void execute(List<Task> tasks, Storage storage) {
-        System.out.println("Here are the tasks in your list:");
-        for (int i = 0; i < tasks.size(); i++) {
-            System.out.println((i + 1) + ". " + tasks.get(i));
-        }
+    public void execute(TaskList taskList, Storage storage, Ui ui) {
+        ui.printList(taskList);
     }
 
     @Override

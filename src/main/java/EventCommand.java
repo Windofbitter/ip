@@ -1,7 +1,5 @@
 package main.java;
 
-import java.util.List;
-
 public class EventCommand implements Command{
     private final String description;
     private final String from;
@@ -14,13 +12,11 @@ public class EventCommand implements Command{
     }
 
     @Override
-    public void execute(List<Task> tasks, Storage storage) {
+    public void execute(TaskList  taskList, Storage storage, Ui ui) {
         Event event = new Event(description, from, to);
-        tasks.add(event);
-        System.out.println("Got it. I've added this task:");
-        System.out.println("  " + event);
-        System.out.println("Now you have " + tasks.size() + " tasks in the list.");
-        storage.save(tasks);
+        taskList.addTask(event);
+        ui.printAddTaskSuccess(event, taskList.getSize());
+        storage.save(taskList);
     }
 
     @Override
