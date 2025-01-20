@@ -125,6 +125,15 @@ public class Parser {
                         String[] eventParts = input.substring(6).split(" /from | /to ");
                         yield new EventCommand(eventParts[0], eventParts[1], eventParts[2]);
                     }
+                case FIND -> {
+                        if (input.length() < 6) {
+                            String errorMessage = "Please provide a keyword for the find wind.command.";
+                            // give the correct format
+                            errorMessage += "\nCorrect format: find <keyword>";
+                            throw new IllegalArgumentException(errorMessage);
+                        }
+                        yield new FindCommand(input.substring(5));
+                    }
                 default -> {
                         String errorMessage = getInvalidCommandMessage();
                         throw new InvalidCommandException(errorMessage);
