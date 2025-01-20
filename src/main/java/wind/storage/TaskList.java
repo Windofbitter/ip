@@ -1,8 +1,9 @@
 package wind.storage;
 
+import java.util.LinkedList;
+
 import wind.task.Task;
 
-import java.util.LinkedList;
 
 /**
  * Represents a list of tasks.
