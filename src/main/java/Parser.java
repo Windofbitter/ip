@@ -1,5 +1,7 @@
 package main.java;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class Parser {
@@ -78,8 +80,16 @@ public class Parser {
                     errorMessage += "\nCorrect format: deadline <description> /by <deadline>";
                     throw new IllegalArgumentException(errorMessage);
                 }
-                String[] deadlineWords = input.substring(9).split(" /by ");
-                yield new DeadlineCommand(deadlineWords[0], deadlineWords[1]);
+                try {
+                    String[] deadlineWords = input.substring(9).split(" /by ");
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                    LocalDate deadline = LocalDate.parse(deadlineWords[1], formatter);
+                    yield new DeadlineCommand(deadlineWords[0], deadline);
+                } catch (Exception e) {
+                    String errorMessage = "Please provide a valid deadline for the deadline command.";
+                    errorMessage += "\nCorrect format: deadline <description> /by <deadline> (yyyy-MM-dd)";
+                    throw new IllegalArgumentException(errorMessage);
+                }
             }
             case CommandEnum.EVENT -> {
                 // check the format
@@ -112,7 +122,7 @@ public class Parser {
         errorMessage += "\n3. mark <task number>";
         errorMessage += "\n4. unmark <task number>";
         errorMessage += "\n5. todo <description>";
-        errorMessage += "\n6. deadline <description> /by <deadline>";
+        errorMessage += "\n6. deadline <description> /by <deadline> (yyyy-MM-dd)";
         errorMessage += "\n7. event <description> /from <start time> /to <end time>";
         return errorMessage;
     }

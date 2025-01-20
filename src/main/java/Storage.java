@@ -3,6 +3,8 @@ package main.java;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class Storage {
@@ -46,7 +48,9 @@ public class Storage {
         } else if (task.getClass().equals(Event.class)) {
             return "E | " + (task.getIsDone() ? "1" : "0") + " | " + task.getDescription() + " | " + ((Event) task).getStartDate() + " | " + ((Event) task).getEndDate();
         } else {
-            return "D | " + (task.getIsDone() ? "1" : "0") + " | " + task.getDescription() + " | " + ((Deadline) task).getDeadline();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            String formattedDate = ((Deadline) task).getDeadline().format(formatter);
+            return "D | " + (task.getIsDone() ? "1" : "0") + " | " + task.getDescription() + " | " + formattedDate;
         }
     }
 
@@ -65,7 +69,9 @@ public class Storage {
             }
             return event;
         } else {
-            Deadline deadline = new Deadline(arr[2], arr[3]);
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            LocalDate deadlineDate = LocalDate.parse(arr[3], formatter);
+            Deadline deadline = new Deadline(arr[2], deadlineDate);
             if (arr[1].equals("1")) {
                 deadline.setIsDone(true);
             }

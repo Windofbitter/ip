@@ -1,11 +1,14 @@
 package main.java;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 public class Deadline implements Task {
     private final String description;
-    private String deadline;
+    private LocalDate deadline;
     private boolean isDone;
 
-    public Deadline(String description, String deadline) {
+    public Deadline(String description, LocalDate deadline) {
         this.description = description;
         this.isDone = false;
         this.deadline = deadline;
@@ -15,7 +18,7 @@ public class Deadline implements Task {
         return this.description;
     }
 
-    public String getDeadline() {
+    public LocalDate getDeadline() {
         return this.deadline;
     }
 
@@ -29,7 +32,9 @@ public class Deadline implements Task {
 
     @Override
     public String toString() {
-        return "[D]" + "[" + (this.isDone ? "X" : " ") + "] " + this.description + " (by: " + this.deadline + ")";
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM dd yyyy");
+        String formattedDate = this.deadline.format(formatter);
+        return "[D]" + "[" + (this.isDone ? "X" : " ") + "] " + this.description + " (by: " + formattedDate + ")";
     }
 
 }
