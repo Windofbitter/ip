@@ -1,6 +1,11 @@
-package main.java;
+package main.java.command;
 
-public class EventCommand implements Command{
+import main.java.task.Event;
+import main.java.storage.Storage;
+import main.java.storage.TaskList;
+import main.java.ui.Ui;
+
+public class EventCommand implements Command {
     private final String description;
     private final String from;
     private final String to;
@@ -12,7 +17,7 @@ public class EventCommand implements Command{
     }
 
     @Override
-    public void execute(TaskList  taskList, Storage storage, Ui ui) {
+    public void execute(TaskList taskList, Storage storage, Ui ui) {
         Event event = new Event(description, from, to);
         taskList.addTask(event);
         ui.printAddTaskSuccess(event, taskList.getSize());

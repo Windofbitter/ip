@@ -1,4 +1,4 @@
-package main.java;
+package main.java.task;
 
 public class Todo implements Task {
     private final String description;

@@ -1,4 +1,6 @@
-package main.java;
+package main.java.storage;
+
+import main.java.task.Task;
 
 import java.util.LinkedList;
 

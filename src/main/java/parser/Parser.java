@@ -1,8 +1,12 @@
-package main.java;
+package main.java.parser;
+
+import main.java.exception.IllegalArgumentException;
+import main.java.exception.InvalidCommandException;
+import main.java.storage.TaskList;
+import main.java.command.*;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 
 public class Parser {
     public static Command parse(String input, TaskList taskList) throws IllegalArgumentException, InvalidCommandException {

@@ -1,18 +1,24 @@
-package main.java;
+package main.java.command;
 
-public class DeleteCommand implements Command{
+import main.java.storage.Storage;
+import main.java.task.Task;
+import main.java.storage.TaskList;
+import main.java.ui.Ui;
+
+public class MarkCommand implements Command {
     private final int index;
 
-    public DeleteCommand(int index) {
+    public MarkCommand(int index) {
         this.index = index;
     }
 
     @Override
     public void execute(TaskList taskList, Storage storage, Ui ui) {
         Task task = taskList.getTask(index - 1);
-        taskList.deleteTask(index - 1);
-        ui.printDeleteTaskSuccess(task, taskList.getSize());
+        task.setIsDone(true);
+        ui.printMarkTaskSuccess(task);
         storage.save(taskList);
+
     }
 
     @Override

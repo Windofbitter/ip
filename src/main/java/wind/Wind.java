@@ -1,4 +1,11 @@
-package main.java;
+package main.java.wind;
+
+import main.java.command.Command;
+import main.java.exception.WindException;
+import main.java.parser.Parser;
+import main.java.storage.Storage;
+import main.java.storage.TaskList;
+import main.java.ui.Ui;
 
 import java.util.Scanner;
 

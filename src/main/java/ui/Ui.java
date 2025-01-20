@@ -1,4 +1,7 @@
-package main.java;
+package main.java.ui;
+
+import main.java.storage.TaskList;
+import main.java.task.Task;
 
 public class Ui {
 

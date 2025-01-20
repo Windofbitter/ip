@@ -1,11 +1,15 @@
-package main.java;
+package main.java.storage;
+
+import main.java.task.Deadline;
+import main.java.task.Event;
+import main.java.task.Task;
+import main.java.task.Todo;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 
 public class Storage {
     private final String filePath = "./data/tasks.txt";

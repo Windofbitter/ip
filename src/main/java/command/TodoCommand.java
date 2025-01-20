@@ -1,4 +1,10 @@
-package main.java;
+package main.java.command;
+
+import main.java.storage.Storage;
+import main.java.storage.TaskList;
+import main.java.task.Task;
+import main.java.task.Todo;
+import main.java.ui.Ui;
 
 public class TodoCommand implements Command {
     private final String description;
