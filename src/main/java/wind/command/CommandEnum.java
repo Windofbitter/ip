@@ -1,4 +1,4 @@
-package main.java.command;
+package wind.command;
 
 public enum CommandEnum {
     BYE,

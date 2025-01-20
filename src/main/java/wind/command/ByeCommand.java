@@ -1,8 +1,9 @@
-package main.java.command;
+package wind.command;
 
-import main.java.storage.Storage;
-import main.java.storage.TaskList;
-import main.java.ui.Ui;
+
+import wind.storage.Storage;
+import wind.storage.TaskList;
+import wind.ui.Ui;
 
 public class ByeCommand implements Command {
     @Override

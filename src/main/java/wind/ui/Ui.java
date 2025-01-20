@@ -1,12 +1,13 @@
-package main.java.ui;
+package wind.ui;
 
-import main.java.storage.TaskList;
-import main.java.task.Task;
+
+import wind.storage.TaskList;
+import wind.task.Task;
 
 public class Ui {
 
     public void printAddTaskSuccess(Task task, int taskCount) {
-        System.out.println("Got it. I've added this task:");
+        System.out.println("Got it. I've added this wind.task:");
         System.out.println("  " + task);
         System.out.println("Now you have " + taskCount + " tasks in the list.");
     }
@@ -19,17 +20,17 @@ public class Ui {
     }
 
     public void printMarkTaskSuccess(Task task) {
-        System.out.println("OK, I've marked this task as done:");
+        System.out.println("OK, I've marked this wind.task as done:");
         System.out.println("  " + task);
     }
 
     public void printUnmarkTaskSuccess(Task task) {
-        System.out.println("OK, I've marked this task as not done yet:");
+        System.out.println("OK, I've marked this wind.task as not done yet:");
         System.out.println("  " + task);
     }
 
     public void printDeleteTaskSuccess(Task task, int taskCount) {
-        System.out.println("Noted. I've removed this task:");
+        System.out.println("Noted. I've removed this wind.task:");
         System.out.println("  " + task);
         System.out.println("Now you have " + taskCount + " tasks in the list.");
     }

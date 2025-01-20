@@ -1,4 +1,4 @@
-package main.java.exception;
+package wind.exception;
 
 public class InvalidCommandException extends WindException {
     public InvalidCommandException(String message) {

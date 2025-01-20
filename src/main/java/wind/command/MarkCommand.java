@@ -1,9 +1,10 @@
-package main.java.command;
+package wind.command;
 
-import main.java.storage.Storage;
-import main.java.task.Task;
-import main.java.storage.TaskList;
-import main.java.ui.Ui;
+
+import wind.storage.Storage;
+import wind.storage.TaskList;
+import wind.task.Task;
+import wind.ui.Ui;
 
 public class MarkCommand implements Command {
     private final int index;

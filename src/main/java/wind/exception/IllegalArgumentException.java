@@ -1,4 +1,4 @@
-package main.java.exception;
+package wind.exception;
 
 public class IllegalArgumentException extends WindException {
     public IllegalArgumentException(String message) {

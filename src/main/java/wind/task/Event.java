@@ -1,4 +1,4 @@
-package main.java.task;
+package wind.task;
 
 public class Event implements Task {
     private final String description;

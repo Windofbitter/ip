@@ -1,20 +1,20 @@
 Hello! I'm Wind
 What can I do for you?
 Got it. I've added this wind.task:
-  [T][ ] read book
+[T][ ] read book
 Now you have 1 tasks in the list.
 Got it. I've added this wind.task:
-  [D][ ] submit report (by: Sunday)
+[D][ ] submit report (by: Sunday)
 Now you have 2 tasks in the list.
 Got it. I've added this wind.task:
-  [E][ ] project meeting (from: Mon 2pm to: 4pm)
+[E][ ] project meeting (from: Mon 2pm to: 4pm)
 Now you have 3 tasks in the list.
 Here are the tasks in your list:
 1. [T][ ] read book
 2. [D][ ] submit report (by: Sunday)
 3. [E][ ] project meeting (from: Mon 2pm to: 4pm)
 Nice! I've marked this wind.task as done:
-  [T][X] read book
+[T][X] read book
 OK, I've marked this wind.task as not done yet:
-  [T][ ] read book
+[T][ ] read book
 Bye. Hope to see you again soon!

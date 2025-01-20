@@ -1,6 +1,8 @@
-package main.java.storage;
+package wind.storage;
 
-import main.java.task.Task;
+
+
+import wind.task.Task;
 
 import java.util.LinkedList;
 

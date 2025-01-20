@@ -1,9 +1,11 @@
-package main.java.storage;
+package wind.storage;
 
-import main.java.task.Deadline;
-import main.java.task.Event;
-import main.java.task.Task;
-import main.java.task.Todo;
+
+
+import wind.task.Deadline;
+import wind.task.Event;
+import wind.task.Task;
+import wind.task.Todo;
 
 import java.nio.file.Files;
 import java.nio.file.Path;

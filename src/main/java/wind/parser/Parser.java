@@ -1,9 +1,10 @@
-package main.java.parser;
+package wind.parser;
 
-import main.java.exception.IllegalArgumentException;
-import main.java.exception.InvalidCommandException;
-import main.java.storage.TaskList;
-import main.java.command.*;
+
+
+import wind.command.*;
+import wind.exception.InvalidCommandException;
+import wind.storage.TaskList;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -13,74 +14,74 @@ public class Parser {
         String[] words = input.split(" ");
         CommandEnum commandEnum = getCommandEnum(words[0]);
         return switch (commandEnum) {
-            case CommandEnum.BYE -> new ByeCommand();
-            case CommandEnum.LIST -> new ListCommand();
-            case CommandEnum.DELETE -> {
+            case BYE -> new ByeCommand();
+            case LIST -> new ListCommand();
+            case DELETE -> {
                 // try and parse the integer and see if it is valid
                 if (words.length < 2) {
-                    String errorMessage = "Please provide a task number for the delete command.";
+                    String errorMessage = "Please provide a wind.task number for the delete wind.command.";
                     // give the correct format
-                    errorMessage += "\nCorrect format: delete <task number>";
+                    errorMessage += "\nCorrect format: delete <wind.task number>";
                     throw new IllegalArgumentException(errorMessage);
                 }
-                // check whether the task number is valid
+                // check whether the wind.task number is valid
                 if (!words[1].matches("\\d+") || Integer.parseInt(words[1]) < 1 || Integer.parseInt(words[1]) > taskList.getSize()) {
-                    String errorMessage = "Please provide a valid task number for the delete command.";
+                    String errorMessage = "Please provide a valid wind.task number for the delete wind.command.";
                     // give the correct format
-                    errorMessage += "\nCorrect format: delete <task number>";
+                    errorMessage += "\nCorrect format: delete <wind.task number>";
                     throw new IllegalArgumentException(errorMessage);
                 }
                 yield new DeleteCommand(Integer.parseInt(words[1]));
             }
-            case CommandEnum.MARK -> {
+            case MARK -> {
                 // try and parse the integer and see if it is valid
                 if (words.length < 2) {
-                    String errorMessage = "Please provide a task number for the mark command.";
+                    String errorMessage = "Please provide a wind.task number for the mark wind.command.";
                     // give the correct format
-                    errorMessage += "\nCorrect format: mark <task number>";
+                    errorMessage += "\nCorrect format: mark <wind.task number>";
                     throw new IllegalArgumentException(errorMessage);
                 }
-                // check whether the task number is valid
+                // check whether the wind.task number is valid
                 if (!words[1].matches("\\d+") || Integer.parseInt(words[1]) < 1 || Integer.parseInt(words[1]) > taskList.getSize()) {
-                    String errorMessage = "Please provide a valid task number for the mark command.";
+                    String errorMessage = "Please provide a valid wind.task number for the mark wind.command.";
                     // give the correct format
-                    errorMessage += "\nCorrect format: mark <task number>";
+                    errorMessage += "\nCorrect format: mark <wind.task number>";
                     throw new IllegalArgumentException(errorMessage);
                 }
                 yield new MarkCommand(Integer.parseInt(words[1]));
             }
-            case CommandEnum.UNMARK -> {
+            case UNMARK -> {
                 if (words.length < 2) {
-                    String errorMessage = "Please provide a task number for the unmark command.";
+                    String errorMessage = "Please provide a wind.task number for the unmark wind.command.";
                     // give the correct format
-                    errorMessage += "\nCorrect format: unmark <task number>";
+                    errorMessage += "\nCorrect format: unmark <wind.task number>";
                     throw new IllegalArgumentException(errorMessage);
                 }
                 if (!words[1].matches("\\d+") || Integer.parseInt(words[1]) < 1 || Integer.parseInt(words[1]) > taskList.getSize()) {
-                    String errorMessage = "Please provide a valid task number for the unmark command.";
+                    String errorMessage = "Please provide a valid wind.task number for the unmark wind.command.";
                     // give the correct format
-                    errorMessage += "\nCorrect format: unmark <task number>";
+                    errorMessage += "\nCorrect format: unmark <wind.task number>";
                     throw new IllegalArgumentException(errorMessage);
                 }
                 yield new UnmarkCommand(Integer.parseInt(words[1]));
             }
-            case CommandEnum.TODO -> {
+            case TODO -> {
                 if (input.length() < 6) {
-                    String errorMessage = "Please provide a description for the todo command.";
+                    String errorMessage = "Please provide a description for the todo wind.command.";
                     // give the correct format
                     errorMessage += "\nCorrect format: todo <description>";
                     throw new IllegalArgumentException(errorMessage);
                 }
                 yield new TodoCommand(input.substring(5));
             }
-            case CommandEnum.DEADLINE -> {
+            case DEADLINE -> {
                 if (!input.contains(" /by ")) {
-                    String errorMessage = "Please provide a valid deadline command.";
+                    String errorMessage = "Please provide a valid deadline wind.command.";
                     errorMessage += "\nCorrect format: deadline <description> /by <deadline>";
                     throw new IllegalArgumentException(errorMessage);
                 }
                 if (input.substring(9).split(" /by ").length < 2) {
-                    String errorMessage = "Please provide a deadline for the deadline command.";
+                    String errorMessage = "Please provide a deadline for the deadline wind.command.";
                     errorMessage += "\nCorrect format: deadline <description> /by <deadline>";
                     throw new IllegalArgumentException(errorMessage);
                 }
@@ -90,21 +91,21 @@ public class Parser {
                     LocalDate deadline = LocalDate.parse(deadlineWords[1], formatter);
                     yield new DeadlineCommand(deadlineWords[0], deadline);
                 } catch (Exception e) {
-                    String errorMessage = "Please provide a valid deadline for the deadline command.";
+                    String errorMessage = "Please provide a valid deadline for the deadline wind.command.";
                     errorMessage += "\nCorrect format: deadline <description> /by <deadline> (yyyy-MM-dd)";
                     throw new IllegalArgumentException(errorMessage);
                 }
             }
-            case CommandEnum.EVENT -> {
+            case EVENT -> {
                 // check the format
                 if (!input.contains(" /from ") || !input.contains(" /to ") || input.indexOf(" /from ") > input.indexOf(" /to ")) {
-                    String errorMessage = "Please provide a valid event command.";
+                    String errorMessage = "Please provide a valid event wind.command.";
                     errorMessage += "\nCorrect format: event <description> /from <start time> /to <end time>";
                     throw new IllegalArgumentException(errorMessage);
                 }
                 // check the description
                 if (input.substring(6).split(" /from | /to ").length < 3) {
-                    String errorMessage = "Please provide a description for the event command.";
+                    String errorMessage = "Please provide a description for the event wind.command.";
                     errorMessage += "\nCorrect format: event <description> /from <start time> /to <end time>";
                     throw new IllegalArgumentException(errorMessage);
                 }
@@ -119,12 +120,12 @@ public class Parser {
     }
 
     private static String getInvalidCommandMessage() {
-        String errorMessage = "I do not understand this command, please try again.";
+        String errorMessage = "I do not understand this wind.command, please try again.";
         errorMessage += "\nHere are the possible commands:";
         errorMessage += "\n1. bye";
         errorMessage += "\n2. list";
-        errorMessage += "\n3. mark <task number>";
-        errorMessage += "\n4. unmark <task number>";
+        errorMessage += "\n3. mark <wind.task number>";
+        errorMessage += "\n4. unmark <wind.task number>";
         errorMessage += "\n5. todo <description>";
         errorMessage += "\n6. deadline <description> /by <deadline> (yyyy-MM-dd)";
         errorMessage += "\n7. event <description> /from <start time> /to <end time>";

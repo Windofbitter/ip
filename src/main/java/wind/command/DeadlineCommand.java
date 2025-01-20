@@ -1,9 +1,10 @@
-package main.java.command;
+package wind.command;
 
-import main.java.task.Deadline;
-import main.java.storage.Storage;
-import main.java.storage.TaskList;
-import main.java.ui.Ui;
+
+import wind.storage.Storage;
+import wind.storage.TaskList;
+import wind.task.Deadline;
+import wind.ui.Ui;
 
 import java.time.LocalDate;
 

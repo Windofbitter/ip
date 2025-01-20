@@ -1,9 +1,10 @@
-package main.java.command;
+package wind.command;
 
-import main.java.task.Event;
-import main.java.storage.Storage;
-import main.java.storage.TaskList;
-import main.java.ui.Ui;
+
+import wind.storage.Storage;
+import wind.storage.TaskList;
+import wind.task.Event;
+import wind.ui.Ui;
 
 public class EventCommand implements Command {
     private final String description;
