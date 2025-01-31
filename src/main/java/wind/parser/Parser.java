@@ -57,7 +57,10 @@ public class Parser {
                 errorMessage += "\nCorrect format: delete <task number>";
                 throw new IllegalArgumentException(errorMessage);
             }
-            return new DeleteCommand(Integer.parseInt(words[1]));
+            int deleteIndex = Integer.parseInt(words[1]);
+            assert deleteIndex >= 1 && deleteIndex <= taskList.getSize() 
+                   : "Task number must be within valid range: " + deleteIndex;
+            return new DeleteCommand(deleteIndex);
         case MARK:
             // try and parse the integer and see if it is valid
             if (words.length < 2) {
@@ -74,7 +77,10 @@ public class Parser {
                 errorMessage += "\nCorrect format: mark <task number>";
                 throw new IllegalArgumentException(errorMessage);
             }
-            return new MarkCommand(Integer.parseInt(words[1]));
+            int markIndex = Integer.parseInt(words[1]);
+            assert markIndex >= 1 && markIndex <= taskList.getSize() 
+                   : "Task number must be within valid range: " + markIndex;
+            return new MarkCommand(markIndex);
         case UNMARK:
             if (words.length < 2) {
                 String errorMessage = "Please provide a task number for the unmark command.";
@@ -89,7 +95,10 @@ public class Parser {
                 errorMessage += "\nCorrect format: unmark <task number>";
                 throw new IllegalArgumentException(errorMessage);
             }
-            return new UnmarkCommand(Integer.parseInt(words[1]));
+            int unmarkIndex = Integer.parseInt(words[1]);
+            assert unmarkIndex >= 1 && unmarkIndex <= taskList.getSize() 
+                   : "Task number must be within valid range: " + unmarkIndex;
+            return new UnmarkCommand(unmarkIndex);
         case TODO:
             if (input.length() < 6) {
                 String errorMessage = "Please provide a description for the todo command.";
@@ -146,7 +155,7 @@ public class Parser {
         default:
             String errorMessage = getInvalidCommandMessage();
             throw new InvalidCommandException(errorMessage);
-                }
+        }
     }
 
     /**
