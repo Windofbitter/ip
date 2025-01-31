@@ -75,6 +75,10 @@ public class Event implements Task {
      */
     @Override
     public String toString() {
-        return "[E]" + "[" + (this.isDone ? "X" : " ") + "] " + this.description + " (from: " + this.startDate + " to: " + this.endDate + ")";
+        return String.format("[E][%s] %s (from: %s to: %s)",
+                this.isDone ? "X" : " ",
+                this.description,
+                this.startDate,
+                this.endDate);
     }
 }

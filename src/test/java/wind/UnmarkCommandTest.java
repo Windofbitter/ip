@@ -36,7 +36,6 @@ public class UnmarkCommandTest {
 
         // Assert
         verify(task).setIsDone(false);
-        verify(ui).printUnmarkTaskSuccess(task);
         verify(storage).save(taskList);
     }
 }

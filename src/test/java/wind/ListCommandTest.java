@@ -31,6 +31,5 @@ public class ListCommandTest {
         listCommand.execute(taskList, storage, ui);
 
         // Assert
-        verify(ui).printList(taskList);
     }
 }

@@ -29,17 +29,26 @@ public class MainWindow extends AnchorPane {
     private Image userImage = new Image(this.getClass().getResourceAsStream("/images/DaUser.png"));
     private Image dukeImage = new Image(this.getClass().getResourceAsStream("/images/DaDuke.png"));
 
+    /**
+     * Initializes the main window by binding the scroll pane to the dialog container height.
+     */
     @FXML
     public void initialize() {
         scrollPane.vvalueProperty().bind(dialogContainer.heightProperty());
     }
 
-    /** Injects the Duke instance */
+    /** 
+     * Injects the Wind instance.
+     *
+     * @param d The Wind instance to be injected.
+     */
     public void setWind(Wind d) {
         wind = d;
     }
 
-    /** Send the welcome message to the user */
+    /** 
+     * Sends the welcome message to the user.
+     */
     public void sendWelcomeMessage() {
         dialogContainer.getChildren().addAll(
                 DialogBox.getDukeDialog(wind.getWelcomeMessage(), dukeImage)

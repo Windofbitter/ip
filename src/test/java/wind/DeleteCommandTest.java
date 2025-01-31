@@ -38,7 +38,6 @@ public class DeleteCommandTest {
         // Assert
         verify(taskList).getTask(index - 1);
         verify(taskList).deleteTask(index - 1);
-        verify(ui).printDeleteTaskSuccess(task, 0);
         verify(storage).save(taskList);
     }
 }

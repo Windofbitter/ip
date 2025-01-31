@@ -7,8 +7,6 @@ import wind.storage.Storage;
 import wind.storage.TaskList;
 import wind.ui.Ui;
 
-import java.util.Scanner;
-
 /**
  * The main class for the Wind application.
  */
@@ -17,41 +15,38 @@ public class Wind {
     private final TaskList todos = new TaskList();
     private final Storage storage = new Storage();
     private boolean isExit = false;
-//    public static void main(String[] args) {
-//        Ui ui = new Ui();
-//        ui.printWelcome();
-//        Scanner scanner = new Scanner(System.in);
-//        TaskList todos = new TaskList();
-//        Storage storage = new Storage();
-//
-//        storage.loadTask(todos);
-//        while (true) {
-//            try {
-//                String line = scanner.nextLine();
-//                Command c = Parser.parse(line, todos);
-//                c.execute(todos, storage, ui);
-//                if (c.isExit()) {
-//                    break;
-//                }
-//            } catch (WindException e) {
-//                System.out.println(e.getMessage());
-//            }
-//        }
 
-
+    /**
+     * Constructs a new Wind instance and loads tasks from storage.
+     */
     public Wind() {
         storage.loadTask(todos);
     }
 
+    /**
+     * Gets the welcome message for the application.
+     *
+     * @return The welcome message.
+     */
     public String getWelcomeMessage() {
         return ui.getWelcomeMessage();
     }
 
+    /**
+     * Checks if the application should exit.
+     *
+     * @return true if the application should exit, false otherwise.
+     */
     public boolean isExit() {
         return isExit;
     }
 
-
+    /**
+     * Processes user input and returns the appropriate response.
+     *
+     * @param input The user's input command.
+     * @return The response message to the user's command.
+     */
     public String getResponse(String input) {
         try {
             Command c = Parser.parse(input, todos);

@@ -38,7 +38,6 @@ public class DeadlineCommandTest {
 
         // Assert
         verify(taskList).addTask(any(Deadline.class));
-        verify(ui).printAddTaskSuccess(any(Deadline.class), anyInt());
         verify(storage).save(taskList);
     }
 }

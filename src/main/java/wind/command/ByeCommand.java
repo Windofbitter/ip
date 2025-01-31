@@ -19,9 +19,10 @@ public class ByeCommand implements Command {
      */
     @Override
     public void execute(TaskList taskList, Storage storage, Ui ui) {
-//        ui.printGoodbye();
+        //ui.printGoodbye();
         message = ui.getGoodbyeMessage();
     }
+
 
     /**
      * Indicates that this command will exit the application.

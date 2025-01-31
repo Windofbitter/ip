@@ -4,7 +4,6 @@ import java.util.LinkedList;
 
 import wind.task.Task;
 
-
 /**
  * Represents a list of tasks.
  */

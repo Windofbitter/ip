@@ -5,12 +5,12 @@ package wind.exception;
  */
 public class WindException extends RuntimeException {
 
-  /**
-   * Constructs a WindException with the specified detail message.
-   *
-   * @param message The detail message.
-   */
-  public WindException(String message) {
-    super(message);
-  }
+    /**
+     * Constructs a WindException with the specified detail message.
+     *
+     * @param message The detail message.
+     */
+    public WindException(String message) {
+        super(message);
+    }
 }

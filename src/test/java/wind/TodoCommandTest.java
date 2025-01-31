@@ -34,7 +34,6 @@ public class TodoCommandTest {
 
         // Assert
         verify(taskList).addTask(any(Task.class));
-        verify(ui).printAddTaskSuccess(any(Task.class), anyInt());
         verify(storage).save(taskList);
     }
 }

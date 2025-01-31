@@ -37,7 +37,6 @@ public class EventCommandTest {
 
         // Assert
         verify(taskList).addTask(any(Event.class));
-        verify(ui).printAddTaskSuccess(any(Event.class), anyInt());
         verify(storage).save(taskList);
     }
 }

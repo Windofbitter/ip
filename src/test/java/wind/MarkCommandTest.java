@@ -36,7 +36,6 @@ public class MarkCommandTest {
 
         // Assert
         verify(task).setIsDone(true);
-        verify(ui).printMarkTaskSuccess(task);
         verify(storage).save(taskList);
     }
 }

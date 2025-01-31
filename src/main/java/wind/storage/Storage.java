@@ -1,17 +1,19 @@
 package wind.storage;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-
+import java.util.Scanner;
 
 import wind.task.Deadline;
 import wind.task.Event;
 import wind.task.Task;
 import wind.task.Todo;
-
 
 /**
  * Handles the storage of tasks to and from a file.
@@ -36,7 +38,7 @@ public class Storage {
                 Files.createDirectories(path.getParent());
             }
             Files.write(path, sb.toString().getBytes());
-        } catch (java.io.IOException e) {
+        } catch (IOException e) {
             System.out.println("Something went wrong: " + e.getMessage());
         }
     }
@@ -48,17 +50,17 @@ public class Storage {
      */
     public void loadTask(TaskList tasks) {
         try {
-            java.io.File f = new java.io.File(filePath);
+            File f = new File(filePath);
             if (!f.exists()) {
                 return;
             }
-            java.util.Scanner sc = new java.util.Scanner(f);
+            Scanner sc = new Scanner(f);
             while (sc.hasNext()) {
                 String line = sc.nextLine();
                 Task task = getTask(line);
                 tasks.addTask(task);
             }
-        } catch (java.io.FileNotFoundException e) {
+        } catch (FileNotFoundException e) {
             System.out.println("File not found: " + e.getMessage());
         }
     }
@@ -73,11 +75,17 @@ public class Storage {
         if (task.getClass().equals(Todo.class)) {
             return "T | " + (task.getIsDone() ? "1" : "0") + " | " + task.getDescription();
         } else if (task.getClass().equals(Event.class)) {
-            return "E | " + (task.getIsDone() ? "1" : "0") + " | " + task.getDescription() + " | " + ((Event) task).getStartDate() + " | " + ((Event) task).getEndDate();
+            Event event = (Event) task;
+            return String.format("E | %s | %s | %s | %s",
+                    task.getIsDone() ? "1" : "0",
+                    task.getDescription(),
+                    event.getStartDate(),
+                    event.getEndDate());
         } else {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
             String formattedDate = ((Deadline) task).getDeadline().format(formatter);
-            return "D | " + (task.getIsDone() ? "1" : "0") + " | " + task.getDescription() + " | " + formattedDate;
+            return "D | " + (task.getIsDone() ? "1" : "0") + " | " 
+                    + task.getDescription() + " | " + formattedDate;
         }
     }
 
