@@ -11,6 +11,30 @@ import java.time.format.DateTimeParseException;
  * Provides validation methods for command inputs.
  */
 public class CommandValidator {
+    /**
+     * Validates the sort type parameter.
+     *
+     * @param words The command input split into words
+     * @param commandName The name of the command being validated
+     * @throws IllegalArgumentException if the sort type is invalid or missing
+     */
+    public static void validateSortType(String[] words, String commandName) 
+            throws IllegalArgumentException {
+        if (words.length < 2) {
+            throw new IllegalArgumentException(
+                "Please specify sort type: alpha or deadline\n" +
+                "Correct format: sort <type>"
+            );
+        }
+        String sortType = words[1].toLowerCase();
+        if (!sortType.equals("alpha") && !sortType.equals("deadline")) {
+            throw new IllegalArgumentException(
+                "Sort type must be either 'alpha' or 'deadline'\n" +
+                "Correct format: sort <type>"
+            );
+        }
+    }
+
     
     /**
      * Validates a task number input for commands like delete, mark, and unmark.

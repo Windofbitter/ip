@@ -79,6 +79,9 @@ public class Parser {
         case FIND:
             CommandValidator.validateDescription(input, 6, "find");
             return new FindCommand(input.substring(5));
+        case SORT:
+            CommandValidator.validateSortType(words, "sort");
+            return new SortCommand(words[1].toLowerCase());
         default:
             String errorMessage = getInvalidCommandMessage();
             throw new InvalidCommandException(errorMessage);
@@ -100,6 +103,7 @@ public class Parser {
         errorMessage += "\n5. todo <description>";
         errorMessage += "\n6. deadline <description> /by <deadline> (yyyy-MM-dd)";
         errorMessage += "\n7. event <description> /from <start time> /to <end time>";
+        errorMessage += "\n8. sort <type> (alpha or deadline)";
         return errorMessage;
     }
 
@@ -110,17 +114,29 @@ public class Parser {
      * @return The command enum corresponding to the command string.
      */
     private static CommandEnum getCommandEnum(String command) {
-        return switch (command) {
-                case "bye" -> CommandEnum.BYE;
-                case "list" -> CommandEnum.LIST;
-                case "delete" -> CommandEnum.DELETE;
-                case "mark" -> CommandEnum.MARK;
-                case "unmark" -> CommandEnum.UNMARK;
-                case "todo" -> CommandEnum.TODO;
-                case "deadline" -> CommandEnum.DEADLINE;
-                case "event" -> CommandEnum.EVENT;
-                case "find" -> CommandEnum.FIND;
-                default -> CommandEnum.INVALID;
-        };
+        switch (command) {
+        case "bye":
+            return CommandEnum.BYE;
+        case "list":
+            return CommandEnum.LIST;
+        case "delete":
+            return CommandEnum.DELETE;
+        case "mark":
+            return CommandEnum.MARK;
+        case "unmark":
+            return CommandEnum.UNMARK;
+        case "todo":
+            return CommandEnum.TODO;
+        case "deadline":
+            return CommandEnum.DEADLINE;
+        case "event":
+            return CommandEnum.EVENT;
+        case "find":
+            return CommandEnum.FIND;
+        case "sort":
+            return CommandEnum.SORT;
+        default:
+            return CommandEnum.INVALID;
+        }
     }
 }

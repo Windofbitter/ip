@@ -13,5 +13,6 @@ public enum CommandEnum {
     DEADLINE,
     EVENT,
     FIND,
+    SORT,
     INVALID
 }
