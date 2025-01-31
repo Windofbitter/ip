@@ -10,6 +10,7 @@ import wind.ui.Ui;
 
 public class FindCommand implements Command{
     private final String keyword;
+    private String message;
 
     public FindCommand(String keyword) {
         this.keyword = keyword;
@@ -23,11 +24,17 @@ public class FindCommand implements Command{
                 matchingTasks.add(task);
             }
         }
-        ui.printMatchingTasks(matchingTasks);
+//        ui.printMatchingTasks(matchingTasks);
+        message = ui.getMatchingTasksMessage(matchingTasks);
     }
 
     @Override
     public boolean isExit() {
         return false;
+    }
+
+    @Override
+    public String getResponse() {
+        return message;
     }
 }

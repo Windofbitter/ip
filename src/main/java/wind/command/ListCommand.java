@@ -8,6 +8,7 @@ import wind.ui.Ui;
  * Represents a command to list all tasks in the task list.
  */
 public class ListCommand implements Command {
+    private String message;
 
     /**
      * Executes the ListCommand, which prints all tasks in the task list.
@@ -18,7 +19,8 @@ public class ListCommand implements Command {
      */
     @Override
     public void execute(TaskList taskList, Storage storage, Ui ui) {
-        ui.printList(taskList);
+//        ui.printList(taskList);
+        message = ui.getListMessage(taskList);
     }
 
     /**
@@ -29,5 +31,10 @@ public class ListCommand implements Command {
     @Override
     public boolean isExit() {
         return false;
+    }
+
+    @Override
+    public String getResponse() {
+        return message;
     }
 }

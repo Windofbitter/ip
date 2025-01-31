@@ -14,6 +14,7 @@ import wind.ui.Ui;
 public class DeadlineCommand implements Command {
     private final String description;
     private final LocalDate by;
+    private String message;
 
     /**
      * Constructs a DeadlineCommand with the specified description and due date.
@@ -38,8 +39,9 @@ public class DeadlineCommand implements Command {
     public void execute(TaskList taskList, Storage storage, Ui ui) {
         Deadline deadline = new Deadline(this.description, this.by);
         taskList.addTask(deadline);
-        ui.printAddTaskSuccess(deadline, taskList.getSize());
+//        ui.printAddTaskSuccess(deadline, taskList.getSize());
         storage.save(taskList);
+        message = ui.getAddTaskSuccessMessage(deadline, taskList.getSize());
     }
 
     /**
@@ -50,5 +52,10 @@ public class DeadlineCommand implements Command {
     @Override
     public boolean isExit() {
         return false;
+    }
+
+    @Override
+    public String getResponse() {
+        return message;
     }
 }

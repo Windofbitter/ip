@@ -10,6 +10,7 @@ import wind.ui.Ui;
  */
 public class DeleteCommand implements Command {
     private final int index;
+    private String message;
 
     /**
      * Constructs a DeleteCommand with the specified task index.
@@ -32,8 +33,9 @@ public class DeleteCommand implements Command {
     public void execute(TaskList taskList, Storage storage, Ui ui) {
         Task task = taskList.getTask(index - 1);
         taskList.deleteTask(index - 1);
-        ui.printDeleteTaskSuccess(task, taskList.getSize());
+//        ui.printDeleteTaskSuccess(task, taskList.getSize());
         storage.save(taskList);
+        message = ui.getDeleteTaskSuccessMessage(task, taskList.getSize());
     }
 
     /**
@@ -44,5 +46,10 @@ public class DeleteCommand implements Command {
     @Override
     public boolean isExit() {
         return false;
+    }
+
+    @Override
+    public String getResponse() {
+        return message;
     }
 }

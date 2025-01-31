@@ -12,6 +12,7 @@ public class EventCommand implements Command {
     private final String description;
     private final String from;
     private final String to;
+    private String message;
 
     /**
      * Constructs an EventCommand with the specified description, start time, and end time.
@@ -38,8 +39,9 @@ public class EventCommand implements Command {
     public void execute(TaskList taskList, Storage storage, Ui ui) {
         Event event = new Event(description, from, to);
         taskList.addTask(event);
-        ui.printAddTaskSuccess(event, taskList.getSize());
+//        ui.printAddTaskSuccess(event, taskList.getSize());
         storage.save(taskList);
+        message = ui.getAddTaskSuccessMessage(event, taskList.getSize());
     }
 
     /**
@@ -51,4 +53,10 @@ public class EventCommand implements Command {
     public boolean isExit() {
         return false;
     }
+
+    @Override
+    public String getResponse() {
+        return message;
+    }
+
 }

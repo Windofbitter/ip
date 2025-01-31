@@ -11,6 +11,7 @@ import wind.ui.Ui;
  */
 public class TodoCommand implements Command {
     private final String description;
+    private String message;
 
     /**
      * Constructs a TodoCommand with the specified description.
@@ -41,8 +42,9 @@ public class TodoCommand implements Command {
     public void execute(TaskList taskList, Storage storage, Ui ui) {
         Task newTask = new Todo(this.description);
         taskList.addTask(newTask);
-        ui.printAddTaskSuccess(newTask, taskList.getSize());
+//        ui.printAddTaskSuccess(newTask, taskList.getSize());
         storage.save(taskList);
+        message = ui.getAddTaskSuccessMessage(newTask, taskList.getSize());
     }
 
     /**
@@ -53,5 +55,10 @@ public class TodoCommand implements Command {
     @Override
     public boolean isExit() {
         return false;
+    }
+
+    @Override
+    public String getResponse() {
+        return message;
     }
 }

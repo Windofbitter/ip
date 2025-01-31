@@ -8,6 +8,7 @@ import wind.ui.Ui;
  * Represents a command to exit the application.
  */
 public class ByeCommand implements Command {
+    private String message;
 
     /**
      * Executes the ByeCommand, which prints a goodbye message to the user.
@@ -18,7 +19,8 @@ public class ByeCommand implements Command {
      */
     @Override
     public void execute(TaskList taskList, Storage storage, Ui ui) {
-        ui.printGoodbye();
+//        ui.printGoodbye();
+        message = ui.getGoodbyeMessage();
     }
 
     /**
@@ -29,5 +31,10 @@ public class ByeCommand implements Command {
     @Override
     public boolean isExit() {
         return true;
+    }
+
+    @Override
+    public String getResponse() {
+        return message;
     }
 }

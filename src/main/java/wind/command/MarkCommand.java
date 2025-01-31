@@ -10,6 +10,7 @@ import wind.ui.Ui;
  */
 public class MarkCommand implements Command {
     private final int index;
+    private String message;
 
     /**
      * Constructs a MarkCommand with the specified task index.
@@ -32,8 +33,9 @@ public class MarkCommand implements Command {
     public void execute(TaskList taskList, Storage storage, Ui ui) {
         Task task = taskList.getTask(index - 1);
         task.setIsDone(true);
-        ui.printMarkTaskSuccess(task);
+//        ui.printMarkTaskSuccess(task);
         storage.save(taskList);
+        message = ui.getMarkTaskSuccessMessage(task);
     }
 
     /**
@@ -44,5 +46,10 @@ public class MarkCommand implements Command {
     @Override
     public boolean isExit() {
         return false;
+    }
+
+    @Override
+    public String getResponse() {
+        return message;
     }
 }

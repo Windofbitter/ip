@@ -10,6 +10,7 @@ import wind.ui.Ui;
  */
 public class UnmarkCommand implements Command {
     private final int taskNumber;
+    private String message;
 
     /**
      * Constructs an UnmarkCommand with the specified task number.
@@ -32,8 +33,9 @@ public class UnmarkCommand implements Command {
     public void execute(TaskList taskList, Storage storage, Ui ui) {
         Task task = taskList.getTask(taskNumber - 1);
         task.setIsDone(false);
-        ui.printUnmarkTaskSuccess(task);
+//        ui.printUnmarkTaskSuccess(task);
         storage.save(taskList);
+        message = ui.getUnmarkTaskSuccessMessage(task);
     }
 
     /**
@@ -44,5 +46,10 @@ public class UnmarkCommand implements Command {
     @Override
     public boolean isExit() {
         return false;
+    }
+
+    @Override
+    public String getResponse() {
+        return message;
     }
 }
