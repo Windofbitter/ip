@@ -97,6 +97,14 @@ public class Storage {
      */
     private Task getTask(String string) {
         String[] arr = string.split(" \\| ");
+        // Assert that we have at least type, status, and description
+        assert arr.length >= 3 : "Invalid task string format: " + string;
+        // Assert that status is either 0 or 1
+        assert arr[1].equals("0") || arr[1].equals("1") : "Invalid task status: " + arr[1];
+        // Assert that type is T, E, or D
+        assert arr[0].equals("T") || arr[0].equals("E") || arr[0].equals("D") 
+               : "Invalid task type: " + arr[0];
+
         if (arr[0].equals("T")) {
             Todo todo = new Todo(arr[2]);
             if (arr[1].equals("1")) {
@@ -104,12 +112,14 @@ public class Storage {
             }
             return todo;
         } else if (arr[0].equals("E")) {
+            assert arr.length == 5 : "Invalid event format: " + string;
             Event event = new Event(arr[2], arr[3], arr[4]);
             if (arr[1].equals("1")) {
                 event.setIsDone(true);
             }
             return event;
         } else {
+            assert arr.length == 4 : "Invalid deadline format: " + string;
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
             LocalDate deadlineDate = LocalDate.parse(arr[3], formatter);
             Deadline deadline = new Deadline(arr[2], deadlineDate);
