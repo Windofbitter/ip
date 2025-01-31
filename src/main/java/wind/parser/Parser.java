@@ -2,6 +2,7 @@ package wind.parser;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import wind.parser.CommandValidator;
 
 import wind.command.ByeCommand;
 import wind.command.CommandEnum;
@@ -42,106 +43,43 @@ public class Parser {
         case LIST:
             return new ListCommand();
         case DELETE:
-            // try and parse the integer and see if it is valid
-            if (words.length < 2) {
-                String errorMessage = "Please provide a task number for the delete command.";
-                // give the correct format
-                errorMessage += "\nCorrect format: delete <task number>";
-                throw new IllegalArgumentException(errorMessage);
-            }
-            // check whether the task number is valid
-            if (!words[1].matches("\\d+") || Integer.parseInt(words[1]) < 1 
-                    || Integer.parseInt(words[1]) > taskList.getSize()) {
-                String errorMessage = "Please provide a valid task number for the delete command.";
-                // give the correct format
-                errorMessage += "\nCorrect format: delete <task number>";
-                throw new IllegalArgumentException(errorMessage);
-            }
+            CommandValidator.validateTaskNumber(words, taskList, "delete");
             return new DeleteCommand(Integer.parseInt(words[1]));
         case MARK:
-            // try and parse the integer and see if it is valid
-            if (words.length < 2) {
-                String errorMessage = "Please provide a task number for the mark command.";
-                // give the correct format
-                errorMessage += "\nCorrect format: mark <task number>";
-                throw new IllegalArgumentException(errorMessage);
-            }
-            // check whether the task number is valid
-            if (!words[1].matches("\\d+") || Integer.parseInt(words[1]) < 1 
-                    || Integer.parseInt(words[1]) > taskList.getSize()) {
-                String errorMessage = "Please provide a valid task number for the mark command.";
-                // give the correct format
-                errorMessage += "\nCorrect format: mark <task number>";
-                throw new IllegalArgumentException(errorMessage);
-            }
+            CommandValidator.validateTaskNumber(words, taskList, "mark");
             return new MarkCommand(Integer.parseInt(words[1]));
         case UNMARK:
-            if (words.length < 2) {
-                String errorMessage = "Please provide a task number for the unmark command.";
-                // give the correct format
-                errorMessage += "\nCorrect format: unmark <task number>";
-                throw new IllegalArgumentException(errorMessage);
-            }
-            if (!words[1].matches("\\d+") || Integer.parseInt(words[1]) < 1 
-                    || Integer.parseInt(words[1]) > taskList.getSize()) {
-                String errorMessage = "Please provide a valid task number for the unmark command.";
-                // give the correct format
-                errorMessage += "\nCorrect format: unmark <task number>";
-                throw new IllegalArgumentException(errorMessage);
-            }
+            CommandValidator.validateTaskNumber(words, taskList, "unmark");
             return new UnmarkCommand(Integer.parseInt(words[1]));
         case TODO:
-            if (input.length() < 6) {
-                String errorMessage = "Please provide a description for the todo command.";
-                // give the correct format
-                errorMessage += "\nCorrect format: todo <description>";
-                throw new IllegalArgumentException(errorMessage);
-            }
+            CommandValidator.validateDescription(input, 6, "todo");
             return new TodoCommand(input.substring(5));
         case DEADLINE:
+            CommandValidator.validateDescription(input, 9, "deadline");
             if (!input.contains(" /by ")) {
-                String errorMessage = "Please provide a valid deadline command.";
-                errorMessage += "\nCorrect format: deadline <description> /by <deadline>";
-                throw new IllegalArgumentException(errorMessage);
+                throw new IllegalArgumentException(
+                    "Please provide a valid deadline command.\n" +
+                    "Correct format: deadline <description> /by <deadline>"
+                );
             }
-            if (input.substring(9).split(" /by ").length < 2) {
-                String errorMessage = "Please provide a deadline for the deadline command.";
-                errorMessage += "\nCorrect format: deadline <description> /by <deadline>";
-                throw new IllegalArgumentException(errorMessage);
+            String[] deadlineWords = input.substring(9).split(" /by ");
+            if (deadlineWords.length < 2) {
+                throw new IllegalArgumentException(
+                    "Please provide a deadline for the deadline command.\n" +
+                    "Correct format: deadline <description> /by <deadline>"
+                );
             }
-            try {
-                String[] deadlineWords = input.substring(9).split(" /by ");
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-                LocalDate deadline = LocalDate.parse(deadlineWords[1], formatter);
-                return new DeadlineCommand(deadlineWords[0], deadline);
-            } catch (Exception e) {
-                String errorMessage = "Please provide a valid deadline for the deadline command.";
-                errorMessage += "\nCorrect format: deadline <description> /by <deadline> (yyyy-MM-dd)";
-                throw new IllegalArgumentException(errorMessage);
-            }
+            CommandValidator.validateDateFormat(deadlineWords[1], "deadline");
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            LocalDate deadline = LocalDate.parse(deadlineWords[1], formatter);
+            return new DeadlineCommand(deadlineWords[0], deadline);
         case EVENT:
-            // check the format
-            if (!input.contains(" /from ") || !input.contains(" /to ") 
-                    || input.indexOf(" /from ") > input.indexOf(" /to ")) {
-                String errorMessage = "Please provide a valid event command.";
-                errorMessage += "\nCorrect format: event <description> /from <start time> /to <end time>";
-                throw new IllegalArgumentException(errorMessage);
-            }
-            // check the description
-            if (input.substring(6).split(" /from | /to ").length < 3) {
-                String errorMessage = "Please provide a description for the event command.";
-                errorMessage += "\nCorrect format: event <description> /from <start time> /to <end time>";
-                throw new IllegalArgumentException(errorMessage);
-            }
+            CommandValidator.validateDescription(input, 6, "event");
+            CommandValidator.validateEventFormat(input, "event");
             String[] eventParts = input.substring(6).split(" /from | /to ");
             return new EventCommand(eventParts[0], eventParts[1], eventParts[2]);
         case FIND:
-            if (input.length() < 6) {
-                String errorMessage = "Please provide a keyword for the find command.";
-                // give the correct format
-                errorMessage += "\nCorrect format: find <keyword>";
-                throw new IllegalArgumentException(errorMessage);
-            }
+            CommandValidator.validateDescription(input, 6, "find");
             return new FindCommand(input.substring(5));
         default:
             String errorMessage = getInvalidCommandMessage();
