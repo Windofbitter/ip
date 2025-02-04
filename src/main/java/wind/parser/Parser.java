@@ -6,11 +6,22 @@ import wind.storage.TaskList;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Parses user input and returns the corresponding command.
  */
 public class Parser {
+    // Regex patterns for different commands
+    private static final Pattern SIMPLE_COMMAND = Pattern.compile("^(bye|list)$");
+    private static final Pattern INDEX_COMMAND = Pattern.compile("^(mark|unmark|delete)\\s+(\\d+)$");
+    private static final Pattern TODO_COMMAND = Pattern.compile("^todo\\s+(.+)$");
+    private static final Pattern DEADLINE_COMMAND = 
+            Pattern.compile("^deadline\\s+(.+?)\\s+/by\\s+(\\d{4}-\\d{2}-\\d{2})$");
+    private static final Pattern EVENT_COMMAND = 
+            Pattern.compile("^event\\s+(.+?)\\s+/from\\s+(.+?)\\s+/to\\s+(.+)$");
+    private static final Pattern FIND_COMMAND = Pattern.compile("^find\\s+(.+)$");
 
     /**
      * Parses the user input and returns the corresponding command.
@@ -23,66 +34,78 @@ public class Parser {
      */
     public static Command parse(String input, TaskList taskList) 
             throws IllegalArgumentException, InvalidCommandException {
-        String[] words = input.split(" ");
-        CommandEnum commandEnum = getCommandEnum(words[0]);
         
-        switch (commandEnum) {
-        case BYE:
-            return new ByeCommand();
-        case LIST:
-            return new ListCommand();
-        case DELETE:
-            CommandValidator.validateTaskNumber(words, taskList, "delete");
-            int deleteIndex = Integer.parseInt(words[1]);
-            assert deleteIndex >= 1 && deleteIndex <= taskList.getSize() 
-                : "Task number must be within valid range: " + deleteIndex;
-            return new DeleteCommand(deleteIndex);
-        case MARK:
-            CommandValidator.validateTaskNumber(words, taskList, "mark");
-            int markIndex = Integer.parseInt(words[1]);
-            assert markIndex >= 1 && markIndex <= taskList.getSize() 
-                : "Task number must be within valid range: " + markIndex;
-            return new MarkCommand(markIndex);
-        case UNMARK:
-            CommandValidator.validateTaskNumber(words, taskList, "unmark");
-            int unmarkIndex = Integer.parseInt(words[1]);
-            assert unmarkIndex >= 1 && unmarkIndex <= taskList.getSize() 
-                : "Task number must be within valid range: " + unmarkIndex;
-            return new UnmarkCommand(unmarkIndex);
-        case TODO:
-            CommandValidator.validateDescription(input, 6, "todo");
-            return new TodoCommand(input.substring(5));
-        case DEADLINE:
-            CommandValidator.validateDescription(input, 9, "deadline");
-            if (!input.contains(" /by ")) {
-                throw new IllegalArgumentException(
-                    "Please provide a valid deadline command.\n" +
-                    "Correct format: deadline <description> /by <deadline>"
-                );
-            }
-            String[] deadlineWords = input.substring(9).split(" /by ");
-            if (deadlineWords.length < 2) {
-                throw new IllegalArgumentException(
-                    "Please provide a deadline for the deadline command.\n" +
-                    "Correct format: deadline <description> /by <deadline>"
-                );
-            }
-            CommandValidator.validateDateFormat(deadlineWords[1], "deadline");
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-            LocalDate deadline = LocalDate.parse(deadlineWords[1], formatter);
-            return new DeadlineCommand(deadlineWords[0], deadline);
-        case EVENT:
-            CommandValidator.validateDescription(input, 6, "event");
-            CommandValidator.validateEventFormat(input, "event");
-            String[] eventParts = input.substring(6).split(" /from | /to ");
-            return new EventCommand(eventParts[0], eventParts[1], eventParts[2]);
-        case FIND:
-            CommandValidator.validateDescription(input, 6, "find");
-            return new FindCommand(input.substring(5));
-        default:
-            String errorMessage = getInvalidCommandMessage();
-            throw new InvalidCommandException(errorMessage);
+        // Try matching simple commands first
+        Matcher simpleMatcher = SIMPLE_COMMAND.matcher(input);
+        if (simpleMatcher.matches()) {
+            CommandEnum command = getCommandEnum(simpleMatcher.group(1));
+            return switch (command) {
+                    case BYE -> new ByeCommand();
+                    case LIST -> new ListCommand();
+                    default -> throw new InvalidCommandException(getInvalidCommandMessage());
+            };
         }
+
+        // Try matching index-based commands
+        Matcher indexMatcher = INDEX_COMMAND.matcher(input);
+        if (indexMatcher.matches()) {
+            CommandEnum command = getCommandEnum(indexMatcher.group(1));
+            int index = Integer.parseInt(indexMatcher.group(2));
+            
+            // Validate index is within range
+            if (index < 1 || index > taskList.getSize()) {
+                throw new IllegalArgumentException(
+                    String.format("Please provide a valid task number for the %s command.\n" +
+                                "Correct format: %s <task number>", command, command));
+            }
+            
+            return switch (command) {
+                    case DELETE -> new DeleteCommand(index);
+                    case MARK -> new MarkCommand(index);
+                    case UNMARK -> new UnmarkCommand(index);
+                    default -> throw new InvalidCommandException(getInvalidCommandMessage());
+            };
+        }
+
+        // Try matching todo command
+        Matcher todoMatcher = TODO_COMMAND.matcher(input);
+        if (todoMatcher.matches()) {
+            return new TodoCommand(todoMatcher.group(1).trim());
+        }
+
+        // Try matching deadline command
+        Matcher deadlineMatcher = DEADLINE_COMMAND.matcher(input);
+        if (deadlineMatcher.matches()) {
+            String description = deadlineMatcher.group(1).trim();
+            String dateStr = deadlineMatcher.group(2);
+            try {
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                LocalDate deadline = LocalDate.parse(dateStr, formatter);
+                return new DeadlineCommand(description, deadline);
+            } catch (Exception e) {
+                throw new IllegalArgumentException(
+                    "Please provide a valid date for the deadline command.\n" +
+                    "Date format should be: yyyy-MM-dd");
+            }
+        }
+
+        // Try matching event command
+        Matcher eventMatcher = EVENT_COMMAND.matcher(input);
+        if (eventMatcher.matches()) {
+            String description = eventMatcher.group(1).trim();
+            String from = eventMatcher.group(2).trim();
+            String to = eventMatcher.group(3).trim();
+            return new EventCommand(description, from, to);
+        }
+
+        // Try matching find command
+        Matcher findMatcher = FIND_COMMAND.matcher(input);
+        if (findMatcher.matches()) {
+            return new FindCommand(findMatcher.group(1).trim());
+        }
+
+        // If no patterns match, throw invalid command exception
+        throw new InvalidCommandException(getInvalidCommandMessage());
     }
 
     /**
