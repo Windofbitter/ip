@@ -7,7 +7,7 @@ Wind is a desktop task management application that helps you keep track of your 
 ## Quick Start
 
 1. Ensure you have Java 11 or above installed on your computer
-2. Download the latest version of Wind from [here]
+2. Download the latest version of Wind from [here](https://github.com/Windofbitter/ip/releases/tag/A-Release)
 3. Copy the downloaded file to a folder you want to use as the home folder for Wind
 4. Double-click the file to start the application. The GUI should appear in a few seconds:
 
