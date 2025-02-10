@@ -121,8 +121,9 @@ public class Parser {
         errorMessage += "\n3. mark <task number>";
         errorMessage += "\n4. unmark <task number>";
         errorMessage += "\n5. todo <description>";
-        errorMessage += "\n6. deadline <description> /by <deadline> (yyyy-MM-dd)";
-        errorMessage += "\n7. event <description> /from <start time> /to <end time>";
+        errorMessage += "\n6. find <description>";
+        errorMessage += "\n7. deadline <description> /by <deadline> (yyyy-MM-dd)";
+        errorMessage += "\n8. event <description> /from <start time> /to <end time>";
         return errorMessage;
     }
 
